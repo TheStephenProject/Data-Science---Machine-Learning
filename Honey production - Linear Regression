@@ -1,0 +1,54 @@
+import codecademylib3_seaborn
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn import linear_model
+
+df = pd.read_csv("https://content.codecademy.com/programs/data-science-path/linear_regression/honeyproduction.csv")
+
+print(df.head())
+
+#step 2
+prod_per_year = df.groupby("year").totalprod.mean().reset_index()
+
+#step 3
+X = prod_per_year.year
+X = X.values.reshape(-1, 1)
+
+#step 4
+y = prod_per_year.totalprod
+
+#step 5
+plt.scatter(X, y)
+# plt.show()
+
+#step 6
+regr = linear_model.LinearRegression()
+
+#step 7
+regr.fit(X, y)
+
+#step 8
+print(regr.coef_[0])
+print(regr.intercept_)
+
+#step 9
+y_predict = regr.predict(X)
+
+#step 10
+plt.plot(X, y_predict)
+plt.xlabel("year")
+plt.ylabel("Predicted Honey Production")
+plt.show()
+
+#step 11
+X_future = np.array(range(2013, 2050))
+X_future = X_future.reshape(-1, 1)
+
+future_predict = regr.predict(X_future)
+
+#step 13
+plt.plot(X_future, future_predict)
+plt.xlabel("year")
+plt.ylabel("Predicted Honey Production")
+plt.show()
